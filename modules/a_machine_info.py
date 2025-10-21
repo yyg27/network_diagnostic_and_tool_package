@@ -36,4 +36,4 @@ def get_machine_info():
     #TO-DO add other version with "netifaces" library
 
 if __name__ == '__main__':
-    get_machine_info()
+    get_machine_info();
