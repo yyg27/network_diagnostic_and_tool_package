@@ -31,6 +31,9 @@ def get_machine_info():
     #i tried to implement the UDP trick that i used for the primary IP but i could't get it to work
     #the solution that i found on the internet is to use a third-party python library called "netifaces" 
     #i don't know if we are allowed to use third-party libraries in our project. So i didn't use it 
-    #for this reason this part of my machine_info module is buggy 
+    #for this reason this part of my machine_info module is limited for my knowledge and buggy 
 
-get_machine_info();
+    #TO-DO add other version with "netifaces" library
+
+if __name__ == '__main__':
+    get_machine_info()
