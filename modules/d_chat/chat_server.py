@@ -34,7 +34,7 @@ def chat_server():
                     clients.remove(client); 
                     client.close();
                     username = usernames[index];
-                    broadcast(f"{username} has left the chat".encode('utf-8'));   
+                    broadcast(f"{username} has left the chat".encode('utf-8'));   ##fix it 
                     usernames.remove(username);
                     break
 
@@ -58,5 +58,6 @@ def chat_server():
             thread = threading.Thread(target=handle, args=(client,));
             thread.start();
 
-    recieve()
+    recieve();
+
 chat_server();
