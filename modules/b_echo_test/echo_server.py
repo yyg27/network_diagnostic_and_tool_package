@@ -43,10 +43,10 @@ def echo_server(port = 56458):
     except KeyboardInterrupt:
         print("\n##SERVER## - Server stopped by user");
     except Exception as e:
-        print(f"##SERVER## - Error: {e}")
+        print(f"##SERVER## - Error: {e}");
     finally:
-        server_s.close()
-        print("##SERVER## - Server socket closed")       
+        server_s.close();
+        print("##SERVER## - Server socket closed");
 
 echo_server(56458)
 

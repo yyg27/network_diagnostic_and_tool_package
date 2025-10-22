@@ -38,7 +38,7 @@ def handle(client):
                 usernames.remove(username);
                 break
 
-
+##function to reciv
 def recive():
     while True:
         client,address = server.accept();
@@ -54,6 +54,7 @@ def recive():
         broadcast(f"{username} has joined the chat".encode("ascii"));
         client.send("Connected to the server".encode("ascii"));
 
+        ##threading
         thread = threading.Thread(target=handle, args=(client,));
         thread.start();
 
