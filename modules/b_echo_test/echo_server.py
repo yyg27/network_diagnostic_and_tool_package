@@ -19,26 +19,34 @@ def echo_server(port = 56458):
     server_s.listen(5);
     print(f"##SERVER## - Listening on port {port}...");
 
-    
-    while True:
+    try:
+        while True:
 
-        connection, client_address = server_s.accept();
-        print(f"##SERVER## - Connected by {client_address}");
+            connection, client_address = server_s.accept();
+            print(f"##SERVER## - Connected by {client_address}");
 
-        data = connection.recv(1024)
-        if not data:
-            print("##SERVER## - No data received, closing connection.");
-            conn.close();
-            continue
+            data = connection.recv(1024)
+            if not data:
+                print("##SERVER## - No data received, closing connection.");
+                connection.close();
+                continue
 
-        print(f"##SERVER## - Received: {data.decode()}");
+            print(f"##SERVER## - Received: {data.decode()}");
         
-        #ECHO
-        connection.sendall(data);
-        print("##SERVER## - Echoed data back to client.");
+            #ECHO
+            connection.sendall(data);
+            print("##SERVER## - Echoed data back to client.");
 
-        connection.close();
-        print("##SERVER## - Connection closed.\n");
+            connection.close();
+            print("##SERVER## - Connection closed.\n");
+
+    except KeyboardInterrupt:
+        print("\n##SERVER## - Server stopped by user");
+    except Exception as e:
+        print(f"##SERVER## - Error: {e}")
+    finally:
+        server_s.close()
+        print("##SERVER## - Server socket closed")       
 
 echo_server(56458)
 
