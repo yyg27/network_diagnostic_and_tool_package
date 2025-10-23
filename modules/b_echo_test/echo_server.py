@@ -1,52 +1,66 @@
 import socket
+import logging
+
+#logging config
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+);
 
 def echo_server(port = 56458):
-    print("\n############ ECHO SERVER ############");
+    
+    print("#"*53);
+    print(" "*20 + " " + "ECHO SERVER" +" " +" "*20);
+    print("#"*53+"\n");
 
     host ='localhost';
-    
-    #Creating a TCP socket 
-    server_s = socket.socket(socket.AF_INET, socket.SOCK_STREAM);
-    print("\n##SERVER## - Socket has been created");
-    #Reuse address/port fix
-    server_s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    
-    server_address = (host,port);
-    #server_s.bind(("0.0.0.0",port));
-    server_s.bind(server_address);
-    print(f"##SERVER## - Server is bound to {server_address}");
-
-    server_s.listen(5);
-    print(f"##SERVER## - Listening on port {port}...");
-
     try:
+        #Creating a TCP socket 
+        server_s = socket.socket(socket.AF_INET, socket.SOCK_STREAM);
+        logging.info("## SERVER ## - Socket has been created");
+        #Reuse address/port fix
+        server_s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    
+        server_address = host,port;
+        #server_s.bind(("0.0.0.0",port));
+        server_s.bind(server_address);
+        logging.info(f"## SERVER ## - Server is bound to {server_address}");
+
+        server_s.listen(5);
+        logging.info(f"## SERVER ## - Listening on port {port}...");
+        logging.info("Waiting for connections... (Press Ctrl+C to stop)");
+    
         while True:
+            try:
+                connection, client_address = server_s.accept();
+                logging.info(f"## SERVER ## - Connected by {client_address}");
 
-            connection, client_address = server_s.accept();
-            print(f"##SERVER## - Connected by {client_address}");
+                data = connection.recv(1024)
+                if not data:
+                    logging.warning("## SERVER ## - No data received, closing connection.");
+                    connection.close();
+                    continue
 
-            data = connection.recv(1024)
-            if not data:
-                print("##SERVER## - No data received, closing connection.");
-                connection.close();
-                continue
-
-            print(f"##SERVER## - Received: {data.decode()}");
+                logging.info(f"## SERVER ## - Received: {data.decode()}");
         
-            #ECHO
-            connection.sendall(data);
-            print("##SERVER## - Echoed data back to client.");
+                #ECHO
+                connection.sendall(data);
+                logging.info("## SERVER ## - Echoed data back to client.");
 
-            connection.close();
-            print("##SERVER## - Connection closed.\n");
+            except Exception as e:
+                logging.error(f"Error handling client: {e}")
+            finally:
+                connection.close();
+                logging.info("## SERVER ## - Connection closed.\n");
 
     except KeyboardInterrupt:
-        print("\n##SERVER## - Server stopped by user");
+        logging.info("\n## SERVER ## - Server stopped by user");
     except Exception as e:
-        print(f"##SERVER## - Error: {e}");
+        logging.info(f"## SERVER ## - Error: {e}");
     finally:
         server_s.close();
-        print("##SERVER## - Server socket closed");
+        logging.info("## SERVER ## - Server socket closed");
 
-echo_server(56458)
+if __name__ == "__main__":
+    echo_server(56458)
 

@@ -5,10 +5,21 @@
 
 import ntplib
 from time import ctime, time
+import logging
+
+#logging config
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+);
 
 def sntp_time_sync():
+
+    print("#"*56);
+    print(" "*20 + " " + "SNTP Time Sync" +" " +" "*20);
+    print("#"*56+"\n");
+
     try:
-    
         client = ntplib.NTPClient();
 
         response = client.request('pool.ntp.org', version=3);
@@ -16,15 +27,17 @@ def sntp_time_sync():
         server_time = ctime(response.tx_time);
         local_time = ctime(time());
 
-        print(f"Server time (from pool.ntp.org): {server_time}");
-        print(f"Local system time:               {local_time}");
+        logging.info(f"Server time (from pool.ntp.org): {server_time}");
+        logging.info(f"Local system time:               {local_time}");
 
         #compare times 
         diff = response.tx_time - time()
-        print(f"\nTime difference: {diff:.3f} seconds");
+        logging.info(f"Time difference: {diff:.3f} seconds");
 
     except Exception as e:
-        print("Error while synchronizing time:", e);
+        logging.error("Error while synchronizing time:", e);
 
 
-sntp_time_sync();
+if __name__ == "__main__":
+    sntp_time_sync();
+
