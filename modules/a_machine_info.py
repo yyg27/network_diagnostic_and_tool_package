@@ -15,24 +15,41 @@ def get_machine_info():
     #trick linux OS to give it's real ip address
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM);
+        logging.info(f"Hostname retrieved: {hostname}");
         s.connect(("8.8.8.8", 80));
         ip_address = s.getsockname()[0];
+        logging.info(f"Primary IP retrieved: {ip_address}");
         s.close();        
+    except Exception as e :
+        ip_address = "IP Address not found";
+        logging.warning(f"Could not retrieve primary IP {e}");
 
-    except:
-        ip_address = "IP Address not found"
-
-    ### same problem about linux. Read the bottom for info
+    ###same problem about linux. Read the bottom for info
     try:
-        ip_list = socket.gethostbyname_ex(hostname)[2]
-    except:
-        ip_list =["Ip Address not found"]        
+        ip_list = socket.gethostbyname_ex(hostname)[2];
+        logging.info(f"All IP's retrieved: {ip_list}");
+    except Exception as e:
+        ip_list =["IP Address not found"];
+        logging.warning(f"Could not retrieve all IP's: {e}");   
 
 
+    ##display
+    print("\n" + "#"*50);
+    print("""
+ _  _   __    ___  _  _  __  __ _  ____    __  __ _  ____  __  ____  _  _   __  ____  __  __   __ _    _  _   __  ____  _  _  __    ____ 
+( \/ ) / _\  / __)/ )( \(  )(  ( \(  __)  (  )(  ( \(  __)/  \(  _ \( \/ ) / _\(_  _)(  )/  \ (  ( \  ( \/ ) /  \(    \/ )( \(  )  (  __)                   
+/ \/ \/    \( (__ ) __ ( )( /    / ) _)    )( /    / ) _)(  O ))   // \/ \/    \ )(   )((  O )/    /  / \/ \(  O )) D () \/ (/ (_/\ ) _) 
+\_)(_/\_/\_/ \___)\_)(_/(__)\_)__)(____)  (__)\_)__)(__)  \__/(__\_)\_)(_/\_/\_/(__) (__)\__/ \_)__)  \_)(_/ \__/(____/\____/\____/(____)
+
+""");
+
+    print("#"*50);
+    print("MODULE: Machine Information Module");
     print("Hostname:",hostname);
     print("Primary IP Address:",ip_address);
-    ####
-    print("Other IP's",ip_list) 
+    ####BUGGY
+    print("Other IP's",ip_list); 
+    print("#"*50 + "\n");
 
     #ip_list = socket.gethostbyname_ex(hostname)[2] just returns the loop-back address again like the socket.gethostbyname(hostname) for my linux system 
     #i tried to implement the UDP trick that i used for the primary IP but i could't get it to work
