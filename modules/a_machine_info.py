@@ -1,4 +1,11 @@
 import socket
+import logging
+
+#logging config
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+);
 
 def get_machine_info():
     hostname = socket.gethostname();
