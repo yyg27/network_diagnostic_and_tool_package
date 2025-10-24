@@ -1,0 +1,4 @@
+network_diagnostic.log
+modules/__pycache__
+modules/b_echo_test/__pycache__
+modules/d_chat/__pycache__
