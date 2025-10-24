@@ -55,5 +55,5 @@ if __name__ == "__main__":
         message = ' '.join(sys.argv[1:])
     else:
         message = input("Enter message to test echo: ") or "MARCO" #don't say POLO
-    
+
     echo_client(message);
