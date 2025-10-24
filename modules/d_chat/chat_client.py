@@ -69,4 +69,4 @@ def chat_client(host="localhost", port=56458):
         client.close();
 
 if __name__ == "__main__":
-    chat_client()
+    chat_client();
