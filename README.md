@@ -87,7 +87,7 @@ network_diagnostic_and_tool_package/
 
 ### Dependencies
 
- `ntplib` library
+ `ntplib` library. 
   an AUR helper like `yay`  or `paru` (only in arch-linux systems)
 
 **Windows/Mac:**
